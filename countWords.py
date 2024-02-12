@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 
 import os 
-
+# seeing space as done and doesn't finish -FIX THIS
 def readWord(fd): #will return word
     word = ""
     completeWord = False 
@@ -10,7 +10,7 @@ def readWord(fd): #will return word
         bytesRead = os.read(fd, 1)#reads a byte at a time
 
         if(len(bytesRead) == 0):#check if it read nothing
-            return ""
+            return word
         charRead = bytesRead.decode() #decode byte to string
 
         if(charRead.isalpha()): #checks if its a letter
@@ -37,7 +37,7 @@ while(fileAble):
     if(len(word) == 0):#checks if its the end of file
         #fileAble = False
         break
-    
+    #check uppercase WHEN == when
     #if word IS in dict add and set n to 1
     if(word in dict.keys()):
         dict[word] = dict[word] + 1
@@ -47,13 +47,9 @@ while(fileAble):
 
 
 #close file
-returnClose = os.close(fd)
-#return 0 if success! and -1 if failure :(
+os.close(fd)
 
-if(returnClose == 0):
-    print(dict) #print dictionary to see results
-else:
-    print("ERROR WHEN CLOSING")
+print(dict)
 
 #sort dictionary
 dictKeys = list(dict.keys())
@@ -67,5 +63,5 @@ for word in sortedDict:
     line = str.encode(word + " " + str(sortedDict[word]))
     os.write(fd, line)
 
-returnClose = os.close(fd)
+os.close(fd)
 
