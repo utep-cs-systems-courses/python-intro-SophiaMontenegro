@@ -1,6 +1,8 @@
 #! /usr/bin/env python3
 
-import os 
+import os
+from buff import BufferedFdReader
+
 # seeing space as done and doesn't finish -FIX THIS
 def readWord(fd): #will return word
     word = ""
@@ -11,28 +13,24 @@ def readWord(fd): #will return word
         bytesRead = os.read(fd, 1)#reads a byte at a time
 
         if(len(bytesRead) == 0):#check if it read nothing
-            count += 1
-            if(count == 2):
-                return word
-            else:
-                continue
+            return word
         charRead = bytesRead.decode() #decode byte to string
 
         if(charRead.isalpha()): #checks if its a letter
             #add to word
             word = word + charRead
-        elif(charRead == " "):
-            if(len(word) > 0):
+        elif(charRead == " "):#encountered a space
+            if(len(word) > 0):#already has read a full word
                 completeWord = True
             else:
-                #word = " "
-                #compleWord = True
+                #just a space
                 continue
+        elif(charRead == "\n"):#this doesn't work as it only reads 1 byte
+            completeWord = True
         else:#other symbols
             completeWord = True
 
-    return word
-
+    return word.lower() #makes everything lowercase
 #empty dictionary to keep track of number of a word
 # word : n
 dict = {}
